@@ -21,9 +21,46 @@ $f3->set('DEBUG', 3);
 $f3->route('GET /', function() {
     echo '<h1>My Fav Foods!</h1>';
 
-    //$view = new View;
-    //echo $view->render('views/home-page.html');
+    $view = new View;
+    echo $view->render('views/home.html');
 });
+
+//Define a breakfast route
+$f3->route('GET /breakfast', function() {
+    $view = new View();
+    echo $view->render('views/breakfast.html');
+});
+
+//Define a lunch route
+$f3->route('GET /lunch', function() {
+    $view = new View();
+    echo $view->render('views/lunch.html');
+});
+
+//Define a lunch route
+$f3->route('GET /dinner', function() {
+    $view = new View();
+    echo $view->render('views/dinner.html');
+});
+
+//Define a lunch route
+$f3->route('GET /tacos', function() {
+    $view = new View();
+    echo $view->render('views/tacos.html');
+});
+
+//Define a lunch route
+$f3->route('GET /sushi', function() {
+    $view = new View();
+    echo $view->render('views/sushi.html');
+});
+
+//Define a lunch route
+$f3->route('GET /chicken', function() {
+    $view = new View();
+    echo $view->render('views/chicken.html');
+});
+
 
 //Run fat free
 $f3->run();
