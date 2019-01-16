@@ -61,8 +61,37 @@ $f3->route('GET /chicken', function() {
     echo $view->render('views/chicken.html');
 });
 
+//Define a lunch route
+$f3->route('GET /dessert/pies', function() {
+    $view = new View();
+    echo $view->render('views/pies.html');
+});
+
+
+//Define a lunch route
+$f3->route('GET /dessert/@yum', function($f3, $params) {
+    print_r($params);
+
+    $food = $params['yum'];
+
+    echo "You like $food";
+
+    if($food =="pies") {
+        $f3->reroute("pies");
+    }
+    else if($food == 'cake') {
+        echo "<h1>I like cake</h1>";
+    }
+    else if($food == 'mousse') {
+        $f3->error(404);
+    }
+    else {
+        echo "<h1>We don't serve that!</h1>";
+    }
+});
+
 //Define a route with multiple parameters
-$f3->route('GET /@meal', function($f3, $params) {
+$f3->route('GET /@food', function($f3, $params) {
     print_r($params);
     echo "<h3>I like " . $params['food'] . "!";
 });
@@ -70,7 +99,24 @@ $f3->route('GET /@meal', function($f3, $params) {
 //Define a route with multiple parameters
 $f3->route('GET /@meal/@food', function($f3, $params) {
     print_r($params);
-    echo "<h3>I like " . $params['food'] . " for " . $params['meal'] . "!";
+
+    $validMeals = ['breakfast', 'lunch', 'dinner'];
+    $meal = $params['meal'];
+
+    //Check if meal is valid
+    if(!in_array($meal, $validMeals)) {
+        echo "<h3>Sorry we don't serve $meal.</h3>";
+    } else {
+        switch($meal){
+            case 'breakfast':
+                $time = " in the morning"; break;
+            case 'lunch':
+                $time = " at noon"; break;
+            case 'dinner':
+                $time = " in the evening";
+        }
+        echo "<h3>I like " . $params['food'] . $time . "!";
+    }
 });
 
 //Define a lunch route
@@ -102,6 +148,8 @@ $f3->route('POST /order-process', function($f3) {
         $f3->error(404);
     }
 });
+
+
 
 //Run fat free
 $f3->run();
